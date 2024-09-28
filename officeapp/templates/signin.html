@@ -1,0 +1,269 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Techsture Technologies India Pvt. Ltd</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+   
+
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+<body>
+  
+    <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+          
+           <!-- <div class="col-lg-12 col-md-6 d-flex flex-column align-items-center justify-content-center">-->
+            <div class="col-lg-12 col-md-6 flex-column align-items-center justify-content-center">
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                    <p class="text-center small">Enter your personal details to create account</p>
+                  </div>
+                 
+              
+                  <form method='post' enctype="multipart/form-data">    
+                  {% csrf_token %}              
+                  <div class="row">
+                                      
+                  <div class=" col-lg-6 col-sm-12">
+
+                  <div class="form-group row">
+                    <label for="firstname" class="col-lg-4 col-sm-12 col-form-label">First Name:</label>
+                    <div class="col-lg-8 col-sm-12"> 
+                      <input class="form-control" type="text" name="firstname"  id="firstname" required>
+                    </div> 
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="middlename" class="col-lg-4 col-sm-12 col-form-label">Middle Name:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text" name="middlename"  id="middlename" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="lastname" class="col-lg-4 col-sm-12 col-form-label">last Name:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text" name="lastname"  id="lastname" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="birthdate" class="col-lg-4 col-sm-12 col-form-label">Birth Date:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="date" name="birthdate"  id="birthdate" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="gender" class="col-lg-4 col-sm-12 col-form-label">Gender:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <select class="form-select" name="gender" id="gender" required>
+                        <option value="Male" selected="">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="presentaddress" class="col-lg-4 col-sm-12 col-form-label">Present Address:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="presentaddress" id="presentaddresst" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="permanentaddress" class="col-lg-4 col-sm-12 col-form-label">Permanent Address:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="permanentaddress" id="permanentaddress" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="city" class="col-lg-4 col-sm-12 col-form-label">City:</label>
+                    <div class="col-lg-8 col-sm-12">
+                    <input class="form-control" type="text"  name="city" id="city" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="state" class="col-lg-4 col-sm-12 col-form-label">State:</label>
+                    <div class="col-lg-8 col-sm-12">
+                        <input class="form-control" type="text"  name="state" id="state" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="pincode" class="col-lg-4 col-sm-12 col-form-label">Pin Code:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="pincode" id="pincode">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="mobile" class="col-lg-4 col-sm-12 col-form-label">Mobile:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="mobile" id="mobile" required>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group row">
+                    <label for="emergencymobile" class="col-lg-4 col-sm-12 col-form-label">Emergency Phone No:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"   name="emergencymobile" id="emergencymobile" required>
+                    </div>
+                  </div> -->
+                  <div class="form-group row">
+                    <label for="bloodgroup" class="col-lg-4 col-sm-12 col-form-label">Blood Group:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="bloodgroup" id="bloodgroup" required>
+                    </div>
+                  </div>
+                  </div>
+                  <div class=" col-lg-6 col-sm-12">
+                  <!-- <div class="form-group row">
+                    <label for="employeeid" class="col-lg-4 col-sm-12 col-form-label">Employee ID:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="employeeid" id="employeeid" required>
+                    </div>
+                  </div> -->
+                  <div class="form-group row">
+                    <label for="email" class="col-lg-4 col-sm-12 col-form-label">E-Mail:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="email" id="email" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="joindate" class="col-lg-4 col-sm-12 col-form-label">Joining Date:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control bd_input" type="date"  name="joindate" id="joindate" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="qualification" class="col-lg-4 col-sm-12 col-form-label">Qualification:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="qualification" id="qualification" required>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group row">
+                    <label for="refname" class="col-lg-4 col-sm-12 col-form-label">Ref. Name:</label>
+                    <div class="col-lg-8 col-sm-12">
+                    <input class="form-control" type="text"  name="refname" id="refname" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="refmobile" class="col-lg-4 col-sm-12 col-form-label">Ref. Mobile:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="refmobile" id="refmobile" required>
+                    </div>
+                  </div> -->
+                  <div class="form-group row">
+                    <label for="username" class="col-lg-4 col-sm-12 col-form-label">User Name:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="text"  name="username" id="username" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="password" class="col-lg-4 col-sm-12 col-form-label">Password:</label>
+                    <div class="col-lg-8 col-sm-12">
+                      <input class="form-control" type="password" value="" name="password" id="password" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="doc" class="col-lg-4 col-sm-12 col-form-label">Profile Picture:</label>
+                    
+                    <div class="col-lg-8 col-sm-12">
+                      
+                      <input class="form-control" type="file" name="doc" accept='image/*' id="doc" required />
+                     
+                    </div>
+                  </div>  
+                  <div style="text-align:center !important;">
+                    <button onclick="showAlert()" class="btn btn-primary input_btn">Submit</button> 
+                     
+                    {% if message %} 
+                      <h1>"{{message}}"</h1> 
+                    {% endif %} 
+                    <a href="{% url 'login' %}" class="btn btn-primary input_btn">Cancel</a>
+                    </div>
+                  </div>
+
+                </div>
+                  
+                </div>
+                </form> 
+                
+              
+                </div>
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main><!-- End #main -->
+  
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js'%}"></script>
+  
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+                                                                      
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <script src="{% static 'assets/js/table2excel.js' %}"></script>
+ 
+
+  
+</body>
+
+</html>
+  
+

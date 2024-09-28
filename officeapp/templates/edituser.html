@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>User Details</h1>
+</div>
+<br>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">User Profile</h5>
+
+          
+          <form method="POST" enctype="multipart/form-data" action="/edituser/{{ Userdetails.UserId }}">
+            
+            {% csrf_token %}
+            <div class="row mb-3">
+                <input type="hidden" value="{{ Userdetails.UserId }}" name="userid" required>
+                </div>
+              <div class="row mb-3">
+<!-- box -->
+                <div class="col-sm-6">
+                  <img src="{% if Userdetails.UploadDocument %}{{ Userdetails.UploadDocument.url }}{% else %}{% static 'assets\img\no_img.jpg' %}{% endif %}" width="600" height="200" alt="Profile" class="img-thumbnail">
+                  <label for="profilepicture" class="col-sm-12">Profile Picture</label>
+                  <input type="file" class="form-control" accept="image/*" id="profilepicture" name="profilepicture">
+                </div>
+                  <!-- <div class="col-sm-6">
+                  </div> -->
+                <br>
+                
+                <div class="col-sm-6">
+                  <label for="first_name" class="col-form-label">FirstName</label>
+                  <input type="text" value="{{ Userdetails.FirstName }}" class="form-control" id="first_name" name="first_name" required>
+                <!-- </div>
+
+                <div class="col-sm-4"> -->
+                  <label for="middle_name" class="col-form-label">MiddleName</label>
+                  <input type="text" value="{{ Userdetails.MiddleName }}" class="form-control" id="middle_name" name="middle_name" required>
+                <!-- </div>
+
+                
+                <div class="col-sm-4"> -->
+                  <label for="last_name" class=" col-form-label">LastName</label>
+                  <input type="text" value="{{ Userdetails.LastName }}" class="form-control" id="last_name" name="last_name" required> 
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="birthdate" class=" col-form-label">BirthDate</label>
+                  <input type="date" value="{{ Userdetails.BirthDate|date:'Y-m-d' }}"  class="form-control" id="birthdate" name="birthdate"> 
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="gender" class=" col-form-label">Gender</label>
+                    <select class="form-control" name="gender" id="gender" required>
+                        <option value="{{ Userdetails.Gender }}" selected="">{{ Userdetails.Gender }}</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
+                  <!-- <input type="date" class="form-control" id="birthdate" name="birthdate" required>  -->
+                </div>
+    
+                
+                <div class="col-sm-3">
+                  <label for="presentaddress" class=" col-form-label">PresentAddress</label>
+                <textarea class="form-control" id="presentaddress" name="presentaddress" rows="1" cols="50">{{ Userdetails.PresentAddress }}</textarea>
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="permanentaddress" class=" col-form-label">PermanentAddress</label>
+                <textarea class="form-control"  id="permanentaddress" name="permanentaddress" rows="1" cols="50">{{ Userdetails.PermanentAddress }}</textarea>
+                </div>
+
+                
+                <div class="col-sm-4">
+                  <label for="city" class=" col-form-label">City</label>
+                  <input type="text" value="{{ Userdetails.City }}" class="form-control" id="city" name="city" > 
+                </div>
+
+                
+                <div class="col-sm-4">
+                  <label for="state" class=" col-form-label">State</label>
+                  <input type="text" value="{{ Userdetails.State }}" class="form-control" id="state" name="state" > 
+                </div>
+
+                
+                <div class="col-sm-4">
+                  <label for="pincode" class=" col-form-label">PinCode</label>
+                  <input type="number" value="{{ Userdetails.PinCode }}" class="form-control" id="pincode" name="pincode" required> 
+                </div>
+              
+                
+                <div class="col-sm-3">
+                  <label for="mobile_number" class=" col-form-label">MobileNumber</label>
+                  <input type="number" value="{{ Userdetails.Mobile }}" class="form-control" id="mobile_number" name="mobile_number" required> 
+                </div>
+
+                
+                <!-- <div class="col-sm-3">
+                  <label for="emergency_number" class=" col-form-label">EmergencyPhoneNo</label>
+                  <input type="number" value="{{ Userdetails.EmergencyPhoneNo }}" class="form-control" id="emergency_number" name="emergency_number" > 
+                </div> -->
+
+                
+                <div class="col-sm-3">
+                  <label for="bloodgroup" class=" col-form-label">BloodGroup</label>
+                  <input type="text" value="{{ Userdetails.BloodGroup }}" class="form-control" id="bloodgroup" name="bloodgroup" > 
+                </div>
+
+              <!-- <div class="row mb-3">
+                <label for="employeid" class=" col-form-label">EmployeeId</label>
+                <div class="col-sm-6">
+                  <input type="number" value="{{ Userdetails.EmployeeId }}" class="form-control" id="employeid" name="employeid" required> 
+                </div>
+              </div> -->
+
+                
+                <div class="col-sm-3">
+                  <label for="email" class=" col-form-label">Email</label>
+                  <input type="email" value="{{ Userdetails.Email }}" class="form-control" id="email" name="email" required> 
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="joiningdate" class=" col-form-label">JoiningDate</label>
+                  <input type="date" value="{{ Userdetails.JoiningDate|date:'Y-m-d' }}" class="form-control" id="joiningdate" name="joiningdate"> 
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="qualification" class=" col-form-label">Qualification</label>
+                  <input type="text" value="{{ Userdetails.Qualification }}" class="form-control" id="qualification" name="qualification" required> 
+                </div>
+
+                
+                <!-- <div class="col-sm-3">
+                  <label for="refname" class=" col-form-label">RefName</label>
+                  <input type="text" value="{{ Userdetails.RefName }}" class="form-control" id="refname" name="refname" > 
+                </div>
+
+              
+                
+                <div class="col-sm-3">
+                  <label for="refmo" class=" col-form-label">RefMo</label>
+                  <input type="number" value="{{ Userdetails.RefMo }}" class="form-control" id="refmo" name="refmo" > 
+                </div> -->
+
+                
+                <div class="col-sm-3">
+                  <label for="username" class=" col-form-label">UserName</label>
+                  <p  class="form-control">{{ Userdetails.UserName }}</p>
+                  <!-- <input type="text" value="{{ Userdetails.UserName }}" class="form-control" id="username" name="username" required>  -->
+                </div>
+
+                
+                <div class="col-sm-3">
+                  <label for="password" class=" col-form-label">Password</label>
+                  <input type="text" value="{{ Userdetails.Password }}" class="form-control" id="password" name="password" required> 
+                </div>
+
+                <br>
+                <hr>
+
+            <div class="text-center">
+                <button action="/edituser/{{ Userdetails.UserId }}" type="submit" class="btn btn-primary" value="UpdateUser">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+              </div>
+              </div>
+          
+
+              </form>
+              {% if messages %} 
+              <script>
+                function showAlert() {
+                  var myText = "{{messages}}";
+                  
+                  alert (myText);
+                  window.location.href = "/usermanagement";
+                
+                }
+                
+              </script> 
+            {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+</main>
+<script>
+  var imgs = document.getElementsByClassName("box");
+
+  $(document).ready(function (){
+    $('.box').each(function() {
+      ScrollZoom($(this), 30, 0.1);
+    });
+  });
+  
+  function ScrollZoom(container, max_scale, factor){
+    var target = container.children().first();
+    var size = {w: target.width(), h: target.height()};
+    var pos = {x: 0, y: 0};
+    var scale = 1;
+    var zoom_target = {x: 0, y: 0};
+    var zoom_point = {x: 0, y: 0};
+    var curr_tranform = target.css('transition');
+    var last_mouse_position = { x: 0, y: 0 };
+    var drag_started = 0;
+  
+    target.css('transform-origin', '0 0');
+    target.on("mousewheel DOMMouseScroll", scrolled);
+    target.on('mousemove', moved);
+    target.on('mousedown', function(e) {
+      e.preventDefault();
+      drag_started = 1;
+      target.css({'cursor': 'move', 'transition': 'transform 0s'});
+      /* Save mouse position */
+      last_mouse_position = { x: event.pageX, y: event.pageY};
+    });
+  
+    target.on('mouseup mouseout', function() {
+      drag_started = 0;
+      target.css({'cursor': 'default', 'transition': curr_tranform});
+    });
+  
+    function scrolled(e){
+      var offset = container.offset();
+      zoom_point.x = e.pageX - offset.left;
+      zoom_point.y = e.pageY - offset.top;
+  
+      e.preventDefault();
+      var delta = e.delta || e.originalEvent.wheelDelta;
+      if (delta === undefined) {
+        //we are on firefox
+        delta = e.originalEvent.detail;
+      }
+      delta = Math.max(-1, Math.min(1, delta)); // cap the delta to [-1,1] for cross browser consistency
+  
+      // determine the point on where the slide is zoomed in
+      zoom_target.x = (zoom_point.x - pos.x) / scale;
+      zoom_target.y = (zoom_point.y - pos.y) / scale;
+  
+      // apply zoom
+      scale += delta * factor * scale;
+      scale = Math.max(1, Math.min(max_scale, scale));
+  
+      // calculate x and y based on zoom
+      pos.x = -zoom_target.x * scale + zoom_point.x;
+      pos.y = -zoom_target.y * scale + zoom_point.y;
+  
+      update();
+    }
+  
+    function moved(event){
+      if (drag_started == 1) {
+        var current_mouse_position = { x: event.pageX, y: event.pageY };
+        var change_x = current_mouse_position.x - last_mouse_position.x;
+        var change_y = current_mouse_position.y - last_mouse_position.y;
+  
+        /* Save mouse position */
+        last_mouse_position = current_mouse_position;
+        //Add the position change
+        pos.x += change_x;
+        pos.y += change_y;
+  
+        update();
+      }
+    }
+  
+    function update(){
+      // Make sure the slide stays in its container area when zooming out
+      if (pos.x > 0)
+        pos.x = 0;
+      if (pos.x + size.w * scale < size.w)
+        pos.x = -size.w * (scale - 1);
+      if (pos.y > 0)
+        pos.y = 0;
+      if (pos.y + size.h * scale < size.h)
+        pos.y = -size.h * (scale - 1);
+  
+      target.css('transform', 'translate(' + pos.x + 'px,' + pos.y + 'px) scale(' + scale + ',' + scale + ')');
+    }
+  }
+  
+</script>
+{% endblock body %}
+
+

@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>User Management</h1>
+</div>
+<br>
+    <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">User Management Details</h5>
+
+          <!-- Bordered Tabs Justified -->
+          <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+            <li class="nav-item flex-fill" role="presentation">
+              <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">View All User</button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+              <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Add User</button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+              <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Manage User</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+            <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+                <hr>
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">UserId</th>
+                        <th scope="col">ProfilePicture</th>
+                        <th scope="col">User FullName</th>
+                        <th scope="col">BirthDate</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">JoiningDate</th>
+                        <th scope="col">UserName</th>
+                        <th scope="col">Password</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for user  in users %}
+                        <tr>
+                          <th scope="row">{{ user.UserId }}</th>
+                          <td><img height="100px" width="100px" src="{{user.UploadDocument.url}}" alt="" target=""></td>
+                          <td>{{ user.FirstName }} {{ user.MiddleName }} {{ user.LastName }}</td>
+                          <td>{{ user.BirthDate }}</td>
+                          <td>{{ user.Gender }}</td>
+                          <td>{{ user.Mobile }}</td>
+                          <td>{{ user.Email }}</td>
+                          <td>{{ user.JoiningDate }}</td>
+                          <td>{{ user.UserName }}</td>
+                          <td>{{ user.Password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  <hr>
+            </div>
+            <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+                <hr>
+                {% if msg %}
+                <h5 class="alert alert-danger alert-dismissible fade show">{{msg}}</h5>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data" action="/">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <label for="first_name" class="col-sm-2 col-form-label">FirstName</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="middle_name" class="col-sm-2 col-form-label">MiddleName</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="middle_name" name="middle_name" required>
+                        </div>
+                      </div>
+
+                    <div class="row mb-3">
+                        <label for="last_name" class="col-sm-2 col-form-label">LastName</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="last_name" name="last_name" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="birthdate" class="col-sm-2 col-form-label">BirthDate</label>
+                        <div class="col-sm-10">
+                          <input type="date" class="form-control" id="birthdate" name="birthdate" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="gender" class="col-sm-2 col-form-label">Gender</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="gender" id="gender" required>
+                                <option value="Male" selected="">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                      </div>
+            
+                      <div class="row mb-3">
+                        <label for="presentaddress" class="col-sm-2 col-form-label">PresentAddress</label>
+                        <div class="col-sm-10">
+                        <textarea class="form-control" id="presentaddress" name="presentaddress" rows="3" cols="50"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="permanentaddress" class="col-sm-2 col-form-label">PermanentAddress</label>
+                        <div class="col-sm-10">
+                        <textarea class="form-control" id="permanentaddress" name="permanentaddress" rows="3" cols="50"></textarea>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="city" class="col-sm-2 col-form-label">City</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="city" name="city" > 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="state" class="col-sm-2 col-form-label">State</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="state" name="state" > 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="pincode" class="col-sm-2 col-form-label">PinCode</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="pincode" name="pincode" required> 
+                        </div>
+                      </div>
+                      
+                    <div class="row mb-3">
+                        <label for="mobile_number" class="col-sm-2 col-form-label">MobileNumber</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="mobile_number" name="mobile_number" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="emergency_number" class="col-sm-2 col-form-label">EmergencyPhoneNo</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="emergency_number" name="emergency_number" > 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="bloodgroup" class="col-sm-2 col-form-label">BloodGroup</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="bloodgroup" name="bloodgroup" > 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="employeid" class="col-sm-2 col-form-label">EmployeeId</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="employeid" name="employeid" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="email" class="form-control" id="email" name="email" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="joiningdate" class="col-sm-2 col-form-label">JoiningDate</label>
+                        <div class="col-sm-10">
+                          <input type="date" class="form-control" id="joiningdate" name="joiningdate" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="qualification" class="col-sm-2 col-form-label">Qualification</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="qualification" name="qualification" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="refname" class="col-sm-2 col-form-label">RefName</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="refname" name="refname" > 
+                        </div>
+                      </div>
+
+                      
+                      <div class="row mb-3">
+                        <label for="refmo" class="col-sm-2 col-form-label">RefMo</label>
+                        <div class="col-sm-10">
+                          <input type="number" class="form-control" id="refmo" name="refmo" > 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="username" class="col-sm-2 col-form-label">UserName</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="username" name="username" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="password" name="password" required> 
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="profilepicture" class="col-sm-2 col-form-label">ProfilePicture</label>
+                        <div class="col-sm-10">
+                          <input type="file" class="form-control" id="profilepicture" name="profilepicture" accept="image/png, image/jpeg" required> 
+                        </div>
+                      </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                      </div>
+
+                      </form>
+                    <hr>
+            </div>
+            <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
+              <hr>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User Name</th>
+                    <!-- <th scope="col">LastName</th> -->
+                    <th scope="col">Remove User</th>
+                    <th scope="col">Update User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for user  in users %}
+                  <tr>
+                    <th scope="row">{{ user.UserId }}</th>
+                    <td>{{ user.FirstName }} {{ user.LastName }}</td>
+                    <!-- <td>{{ emp.LastName }}</td> -->
+                    <td><a class="btn btn-outline-danger bi-trash" href="/deleteuser/{{ user.UserId }}"> Remove</a></td>
+                    <td><a class="btn btn-outline-dark bi-pen" href="/edituser/{{ user.UserId }}"> Update</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <hr>
+              <!-- <i class="bi bi-trash"></i> -->
+            </div>
+          </div><!-- End Bordered Tabs Justified -->
+
+        </div>
+      </div>
+</main>
+{% endblock body %}
+

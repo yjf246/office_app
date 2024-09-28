@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="{% static 'assets1/js/calendar.js' %}"></script>
+
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Event Calender</h1>
+    </div>
+    <br>
+
+     <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-xl-12">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <h5 class="mr-3" id="date"></h5>
+                            <div class="mt-1">
+                                <a href="#" id="cal-prev" class="text-dark mr-2 font-size-18"><i class="las la-chevron-circle-left m-0"></i></a>
+                                <a href="#" id="cal-next" class="text-dark font-size-18"><i class="las la-chevron-circle-right m-0"></i></a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+
+                            
+                            <select name="cal_type" class="selectpicker calender-select" id="cal-type">
+                                <option value="day">Day</option>
+                                <option value="week">Week</option>
+                                <option value="month">Month</option>
+                            </select>
+                            {% if  request.session.is_admin == True %}
+                                <a href="#" class="btn btn-primary btn-new" data-target="#new-create-modal" data-toggle="modal"`><i class="ri-add-line"></i>New</a>
+                            {% endif %} 
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="calendar" style="height: 640px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="col-xl-4">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <div class="card border-bottom">
+                            <div class="card-body text-center inln-date flet-datepickr">
+                                <input type="text" id="inline-date" class="date-input basicFlatpickr d-none" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-create-modal">
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-block text-center pb-3 border-bttom">
+                    <h3 class="modal-title" id="exampleModalCenterTitle">New Event</h3>
+                </div>
+                <form id="myForm" method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+                            
+                            <div class="col-lg-12">
+                                <div class="form-group mb-3">
+                                    <label for="exampleInputText02" class="h5">Event Name</label>
+                                    <input type="text" name="eventname" class="form-control"
+                                        id="exampleInputText02" placeholder="Enter Event Name" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label for="startdatetime" class="h5">Event Start Time</label>
+                                    <input type="datetime-local" id="startdatetime" name="startdatetime" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    <label for="exampleInputText05" class="h5">Event End Time</label>
+                                    <input type="datetime-local" name="enddate" class="form-control"
+                                        id="exampleInputText05" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div
+                                    class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                    <button type="submit" class="btn btn-primary mr-3">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ 
+
+</main>
+
+<script>
+        const model = []
+
+        {% for i in events %}
+        model.push({
+                id:'{{ i.id }}',
+                title:'{{ i.eventname }}',
+                category: 'time',
+                start: '{{ i.starttime|date:'Y-m-d H:i:s' }}',
+                end: '{{ i.endtime|date:'Y-m-d H:i:s' }}',
+            },)
+        {% endfor %}
+        console.log(model)
+
+        // data1.forEach(element => {
+        //     alst.push({id:element[0],
+        //         // calendarId: '1',
+        //         title:element[1],
+        //         category: 'time',
+        //         // bgColor:element[2],
+        //         // color: element[3],
+        //         // borderColor: element[4],
+        //         // dueDateClass: '',
+        //         start: element[5],
+        //         end: element[6]
+    
+    
+        //      })
+        //     });
+
+
+
+    const d = new Date();
+    const formattedDate = d.toDateString();
+    document.getElementById("date").innerHTML = formattedDate;
+    
+    
+    alst = [
+            {
+                id: '11',
+                title: 'my schedule',
+                category: 'time',
+                start: '2024-01-22 09:41:35.392491',
+                end: '2024-01-22 15:41:35.392491'
+            },
+            {
+                id: '22',
+                title: 'second schedule',
+                category: 'time',
+                start: '2024-01-24 ',
+                end: '2024-01-25 '
+            },
+            {
+                id: '3',
+                title: 'third schedule',
+                category: 'time',
+                start: '2024-01-26 09:41:35.392491',
+                end: '2024-01-27 10:41:35.392491'
+            },
+            {
+                id: '4',
+                title: 'fourth schedule',
+                category: 'time',
+                start: '2024-02-01 09:41:35.392491',
+                end: '2024-02-02 10:41:35.392491'
+            },
+
+        ]
+    
+            
+    function eventdata(data){
+        const data1 = data
+        data1.forEach(element => {
+            alst.push({id:element[0],
+                // calendarId: '1',
+                title:element[1],
+                category: 'time',
+                calendarId: '1',
+                // bgColor:element[2],
+                // color: element[3],
+                // borderColor: element[4],
+                // dueDateClass: '',
+                start: element[5],
+                end: element[6]
+    
+    
+             })
+            });
+          
+        console.log(alst)
+        }
+        
+    eventdata({{ lst|safe }})
+
+
+       
+    
+</script>
+
+
+
+<script src="{% static 'assets1/vendor/tui-calendar/tui-code-snippet/dist/tui-code-snippet.js' %}"></script>
+<script src="{% static 'assets1//vendor/tui-calendar/tui-time-picker/dist/tui-time-picker.min.js' %}"></script>
+<script src="{% static 'assets1/vendor/tui-calendar/tui-date-picker/dist/tui-date-picker.min.js' %}"></script>
+<script src="{% static 'assets1/vendor/tui-calendar/tui-calendar/dist/tui-calendar.min.js' %}"></script>
+
+{% endblock body %}

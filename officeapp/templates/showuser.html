@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<main id="main" class="main">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Details</h5>
+                    <hr>
+                        <div class="conntainer">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="profilepicture" class="h5">ProfilePicture</label>
+                                        <img class="form-control" id="profilepicture" class="col-mb-6 img-thumbnail img-fluid rounded w-50"  src="{{ Userdetails.UploadDocument.url }}"  style="height:300px;"  alt="Profile">
+                                    </div>                        
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="first_name" class="h5">FirstName</label>
+                                        <p class="form-control" id="first_name" >{{ Userdetails.FirstName }}</p>
+                                        <label for="middle_name" class="h5">MiddleName</label>
+                                        <p class="form-control" id="middle_name" >{{ Userdetails.MiddleName }}</p>
+                                        <label for="last_name" class="h5">LastName</label>
+                                        <p class="form-control" id="last_name" >{{ Userdetails.LastName }}</p>
+
+                                    </div>                        
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="birthdate" class="h5">BirthDate</label>
+                                        <p class="form-control" id="birthdate" >{{ Userdetails.BirthDate|date:'Y-m-d' }}</p>
+                                        <label for="gender" class="h5">Gender</label>
+                                        <p class="form-control" id="gender" >{{ Userdetails.Gender }}</p>
+                                        
+                                        <label for="email" class="h5">Email</label>
+                                        <p class="form-control" id="email" >{{ Userdetails.Email }}</p>
+                                    </div>                        
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="presentaddress" class="h5">PresentAddress</label>
+                                        <p class="form-control" id="presentaddress" >{{ Userdetails.PresentAddress }}</p>
+                                        <label for="state" class="h5">State</label>
+                                        <p class="form-control" id="state" >{{ Userdetails.State }}</p>
+                                        <label for="emergency_number" class="h5">EmergencyPhoneNo</label>
+                                        <p class="form-control" id="emergency_number" >{{ Userdetails.EmergencyPhoneNo }}</p>
+                                        <label for="qualification" class="h5">Qualification</label>
+                                        <p class="form-control" id="qualification" >{{ Userdetails.Qualification }}</p>
+                                        <label for="userid" class="h5">UserId</label>
+                                        <p class="form-control" id="userid" >{{ Userdetails.UserId }}</p>
+
+
+                                        
+                                    </div>                        
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="permanentaddress" class="h5">PermanentAddress</label>
+                                        <p class="form-control" id="permanentaddress" >{{ Userdetails.PermanentAddress }}</p>
+                                        <label for="pincode" class="h5">PinCode</label>
+                                        <p class="form-control" id="pincode" >{{ Userdetails.PinCode }}</p>
+                                        <label for="bloodgroup" class="h5">BloodGroup</label>
+                                        <p class="form-control" id="bloodgroup" >{{ Userdetails.BloodGroup }}</p>
+                                        <label for="refname" class="h5">RefName</label>
+                                        <p class="form-control" id="refname" >{{ Userdetails.RefName }}</p>
+                                        <label for="username" class="h5">UserName</label>
+                                        <p class="form-control" id="username" >{{ Userdetails.UserName }}</p>
+                                        
+                                    </div>                        
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label for="city" class="h5">City</label>
+                                        <p class="form-control" id="city" >{{ Userdetails.City }}</p>
+                                        <label for="mobile_number" class="h5">MobileNumber</label>
+                                        <p class="form-control" id="mobile_number" >{{ Userdetails.Mobile }}</p>
+                                        <label for="joiningdate" class="h5">JoiningDate</label>
+                                        <p class="form-control" id="joiningdate" >{{ Userdetails.JoiningDate|date:'Y-m-d' }}</p>
+                                        <label for="refmo" class="h5">RefMo</label>
+                                        <p class="form-control" id="refmo" >{{ Userdetails.RefMo }}</p>
+                                        <label for="password" class="h5">Password</label>
+                                        <p class="form-control" id="password" >{{ Userdetails.Password }}</p>
+                                    </div>                        
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock body %}
+
+
+
+
+

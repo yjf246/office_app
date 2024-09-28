@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Check-In Check-Out</h1>
+      
+    </div><!-- End Page Title -->
+
+    <style>
+      @media screen {
+        div.divFooter {
+          display: none;
+        }
+      }
+
+      @media print{
+        /* Hide every other element */
+        body * {
+          visibility:hidden;
+        }
+        /* Then displaying print container elements */
+        .print-container, .print-container *{
+          visibility:visible;
+        }
+        .print-container {
+          position:absolute;
+          top:0px;
+        }
+
+        div.divFooter {
+          position: fixed;
+          bottom: 0;
+        }
+
+      }
+    </style>
+    <br>
+    <section class="section" id = "form">
+
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+                            
+            <form class="row g-3" method="post" onsubmit="submit.disabled = true; return true;">   
+              {% csrf_token %}               
+              <div class="col-lg-4">
+                <div class="form-group mb-3">
+                <label for="userprofile" class="h5">User Profile</label>                  
+                <select value=" " name='userprofile' class="form-control form-select" id="userprofile" required>
+                  {% if  request.session.is_admin == True %}
+                    {% for user in users %}                                                
+                    <option value="{{ user.UserName }}">{{ user.UserName }}</option>                                        
+                    {% endfor %}
+                  {% else %}
+                  <option value="{{ users }}">{{ users }}</option>
+                    {% endif %}                     
+                </select>      
+                </div>            
+              </div>     
+
+              <div class="col-lg-4">
+                <div class="form-group mb-3">
+                    <label for="startdatetime" class="h5">Start Time</label>
+                    <input type="datetime-local" id="startdatetime" name="startdatetime" class="form-control" >
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group mb-3">
+                    <label for="enddatetime" class="h5">End Time</label>
+                    <input type="datetime-local" name="enddatetime" class="form-control" id="enddatetime" >
+                </div>
+            </div>    
+
+                <div class="col-12">
+                  <input class="btn btn-primary" name="submit" type="submit" >
+                  {% if request.POST %}
+                    <a class="btn btn-primary" href="#" onclick="window.print()">Print</a>
+                  {% endif %}
+                </div>
+               
+            </form>
+
+            </div>
+          </div>
+
+    </div>
+    </section>
+{% if request.POST %}
+  <section class="section print-container">
+    <div class="row">
+      <div class="col-lg-12">        
+        <div class="card">         
+          <div class="card-body">          
+            <div class="row g-0">
+
+              <div class="row">
+                <div class="col-sm-3 gr_title">
+                  <img style="height: auto;width: 69px;float:left" src="{% static 'assets\img\display.jpg' %}">
+                </div>
+
+                <div class="col-sm-6 gr_title">
+                  
+                    <h3><span>Techsture Technologies India Pvt. Ltd <br> Check in | Check out</span></h3>
+                  
+                </div>
+
+                <div class="col-sm-3 gr_title">
+                  <img style="height: auto;width: 69px;float:right" src="{% static 'assets\img\display.jpg' %}">
+                </div>
+              </div>
+
+            </div>                         
+            <hr>
+            <div class="col-md-11 gr_title">
+                  
+              <h3 style="padding-left: 6%"><b> {{userprofile.0}} {{userprofile.1}} <b></h3>               
+            </div>   
+            </hr>                                                     
+            <div class="row g-0" style=" border: 1px solid #d1d1d1; border-left: 0; border-right: 0; margin: 15px 10px 20px 10px;">              
+                <div class="col-md-12 tcr_breadcrumb">
+                  <ul>                    
+                     <li> | <b> Start Time : {{ starttime }} </b> | <b> End Time :  {{ endtime }}</b> <li>  
+                  </ul>  
+                  <ul>
+                    <li><b>{{y}}</b></li>
+                  </ul>
+                </div>              
+            </div>  
+            <div class="table-responsive">
+              <div class="row justify-content-between">
+
+              </div>
+              <table id="user-list-table" class="table table-striped dataTable mt-4" role="grid"
+                 aria-describedby="user-list-page-info">
+                 <thead>
+                    <tr class="ligth">
+                        <th>Username</th>
+                        <th>check in</th>
+                        <th>check out</th>
+                        <th>duration</th>
+                    </tr>
+                 </thead>
+                 <tbody>
+                  {% for check in x %}
+                  <tr>
+                      <td>{{ check.user_profile.FirstName }} {{ check.user_profile.LastName }}</td>
+                      <td>{{ check.check_in }}</td>
+                      <td>{{ check.check_out }}</td>
+                      <td>{{ check.duration|slice:'0:-4' }}</td>
+                  </tr>
+                  {% endfor %}
+                 </tbody>
+              </table>
+           </div>                         
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section> 
+
+  {% endif %}
+
+</main> 
+
+
+<script>
+  var now = new Date();
+  var indianNow = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+
+  var morning = new Date(indianNow);
+  morning.setHours(5);
+  morning.setMinutes(30);
+
+  var morningISO = morning.toISOString().slice(0, 16);
+  var currentISO = indianNow.toISOString().slice(0, 16);
+
+  document.getElementById('startdatetime').value = morningISO;
+
+  document.getElementById('enddatetime').value = currentISO;
+</script>
+{% endblock body %}

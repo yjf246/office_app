@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Holiday List</h1>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            {% if  request.session.is_admin == True %} 
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Holidays</h5>
+                            <div class="d-flex flex-wrap align-items-center">
+                                <a href="#" class="btn btn-primary" data-target="#new-task-modal"
+                                    data-toggle="modal">Add Holidays</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title">Holidays List</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <div class="row justify-content-between">
+
+                  </div>
+                  <table id="user-list-table" class="table table-striped dataTable mt-4" role="grid"
+                     aria-describedby="user-list-page-info">
+                     <thead>
+                        <tr class="ligth">
+                            <th>HolidayName</th>
+                            <th>HolidayDate</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for holiday in holidays %}
+                        <tr>
+                          <td>{{ holiday.HolidayName }}</th>
+                          <td>{{ holiday.HolidayDate }}</td>
+                          {% if  request.session.is_admin == True %} 
+                          <td><div class="flex align-items-center list-user-action">
+                            <button class="btn btn-light" 
+                                  data-target="#deleteholiday{{ holiday.id }}" data-original-title="Delete" data-toggle="modal"><i class="ri-delete-bin-line mr-0"></i></button>
+                            <!-- <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title=""
+                               data-original-title="Delete" href="/deleteholiday/{{ holiday.id }}"><i class="ri-delete-bin-line mr-0"></i></a> -->
+                         </div></td>
+                         {% endif %}
+                        </tr>
+                        <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="deleteholiday{{ holiday.id }}">
+                            <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header d-block text-center pb-3 border-bttom">
+                                        <h3 class="modal-title" id="exampleModalCenterTitle">Are you sure you want to delete holiday!</h3>
+                                    </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                    <div class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                        <a href="/deleteholiday/{{ holiday.id }}" class="btn btn-primary mr-3" type="submit">delete</a>
+                                                        <a href="/holidayspage/" type="cancel" class="btn btn-secondary mr-3" >cancel</a>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {% endfor %}
+                        
+                     </tbody>
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+    </div>
+    <!-- Wrapper End-->
+
+
+<!-- ----------------------- -->
+
+        </div>
+
+    
+    
+    <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal">
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-block text-center pb-3 border-bttom">
+                    <h3 class="modal-title" id="exampleModalCenterTitle">Add Holiday</h3>
+                </div>
+
+<!-- ----------- -->
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        
+                        <div class="col-sm-6">
+                            <label for="holiday" class="col-sm-6 col-form-label">Holiday Name</label>
+                            <input type="text" class="form-control" id="holiday" name="holiday" required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="holidaydate" class="col-sm-6 col-form-label">Holiday Date</label>
+                            <input type="date" class="form-control" id="holidaydate" name="holidaydate" required> 
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                        <hr>
+                    </div>
+
+                    </form>
+
+<!-- ---------- -->
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+{% endblock body %}

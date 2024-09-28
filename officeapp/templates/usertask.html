@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>User Task</h1>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Tasks Details</h5>
+                            <div class="d-flex flex-wrap align-items-center">
+                                <a href="#" class="btn btn-primary" data-target="#new-task-modal"
+                                    data-toggle="modal">New Task</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+<!-- ----------------------------- -->
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            {% for task in alltasks %}
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="card card-widget task-card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <!-- <div class="custom-control custom-task custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
+                                        <label class="custom-control-label" for="customCheck{{ task.id }}"></label>
+                                    </div> -->
+                                    <div>
+                                        <h5 class="mb-2">{{ task }}</h5>
+                                        <div class="media align-items-center">
+                                            <div class="btn bg-body mr-3"><i class="ri-align-justify mr-2"></i>Task Added Date : {{ task.TaskAddedTime|date:'Y-m-d' }} | Addedby : {{ task.Addedby }}</div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mt-md-0 mt-3">
+                                    <!-- <a class="btn bg-secondary-light mr-3 bi-trash" href="/taskdelete/{{ task.id }}">delete</a> -->
+                                    <button class="btn bg-info-light mr-3" data-target="#task_remarks{{ task.id }}"
+                                    data-toggle="modal">Update Task </button>
+                                    <button class="{% if task.Markasdone == 'COMPLETED'  %}btn bg-success-light mr-3 {% else %} btn bg-secondary-light mr-3{% endif %}" data-target="#new-task-modal{{ task.id }}"
+                                    data-toggle="modal">Task Status : {{ task.Markasdone }}</button>
+                                    <a class="btn btn btn-light" data-toggle="collapse" href="#collapseEdit{{ task.id }}" role="button" aria-expanded="false" aria-controls="collapseEdit{{ task.id }}"><i class="ri-edit-box-line m-0"></i></a>
+                                </div>
+<!-- ==== -->
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal{{ task.id }}">
+    <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bttom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">Task Status</h3>
+            </div>
+            <form method='post' enctype="multipart/form-data" action="/markdone/{{ task.id }}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                            <!-- <input type="hidden" name="addedby" value="{{ request.session.loguser  }}" > -->
+                        
+                            <div class="col-lg-12">
+                                <label for="markdone" class="col-form-label">Task Status : {{ task.Markasdone }}</label>
+                                <select class="form-select" name="markdone" id="markdone">
+                                    <option value="COMPLETED">COMPLETED</option>
+                                    <option value="PENDING">PENDING</option>
+                                </select>
+                            </div>
+                       
+
+                        <div class="col-lg-12">
+                            <div
+                                class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                <a href="/markdone/{{ task.id }}"><button class="btn btn-primary mr-3" type="submit">Submit</button></a>
+                                <!-- <button type="submit" class="btn btn-primary mr-3" >Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="task_remarks{{ task.id }}">
+    <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bttom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">Update Task</h3>
+            </div>
+            <form method='post' enctype="multipart/form-data" action="/updatetaskremark/{{ task.id }}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                            <!-- <input type="hidden" name="taskid" value="{{ task.id }}" > -->
+                        
+                            <div class="col-lg-6">
+                                <label for="remarks" class="col-form-label">Remarks</label>
+                                <input type="text" value="{{ task.Remarks }}" class="form-control" id="remarks" name="remarks">
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="description" class="col-form-label">Description</label>
+                                <input type="text" value="{{ task.Description }}" class="form-control" id="description" name="description">
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="keyword1" class="col-form-label">Keyword1</label>
+                                <input type="text" value="{{ task.Keyword1 }}" class="form-control" id="keyword1" name="keyword1">
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="keyword2" class="col-form-label">Keyword2</label>
+                                <input type="text" value="{{ task.Keyword2 }}" class="form-control" id="keyword2" name="keyword2">
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="keyword3" class="col-form-label">Keyword3</label>
+                                <input type="text" value="{{ task.Keyword3 }}" class="form-control" id="keyword3" name="keyword3">
+                            </div>
+                            
+
+
+                        <div class="col-lg-12">
+                            <div
+                                class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                <a href="/updatetaskremark/{{ task.id }}"><button class="btn btn-primary mr-3" type="submit">Submit</button></a>
+                                <!-- <button type="submit" class="btn btn-primary mr-3" >Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ==== -->
+
+                            </div>  
+                        </div>
+                    </div>                                                                                                        
+                    <div class="collapse" id="collapseEdit{{ task.id }}">                                            
+                        <div class="card card-list task-card">
+                            <div class="card-body">
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText232" class="h5">Addedby</label>
+                                                        <p class="mb-0 form-control" id="exampleInputText232">{{ task.Addedby }}</p>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-lg-6">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText2" class="h5">AasignedTo</label>
+                                                    <select name="type" id="" class="selectpicker form-control" data-style="py-0">
+                                                        <option>{{ task.AasignedTo }}</option>
+                                                    </select>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText4" class="h5">Task Added Date</label>
+                                                    <p class="mb-0 form-control" id="exampleInputText4">{{ task.TaskAddedTime|date:'Y-m-d' }} 00:00</p>
+                                                </div>                        
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText3" class="h5">Due Dates</label>
+                                                    <p class="mb-0 form-control" id="exampleInputText3">{{ task.DueDate|date:'Y-m-d' }} 00:00</p>
+                                                </div>                         
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Category</h5>
+                                                <p class="mb-0 form-control">{{ task.Category }}</p>
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">ProjectAbout</h5>
+                                                <p class="mb-0 form-control">{{ task.ProjectAbout }}</p>
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Description</h5>
+                                                <textarea class="form-control" placeholder="" rows="3">{{ task.Description }}</textarea>
+                                                <!-- <p class="mb-0 form-control">{{ task.Description }}</p> -->
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Remarks</h5>
+                                                <p class="mb-0 form-control">{{ task.Remarks }}</p>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Keyword1</h5>
+                                                <p class="mb-0 form-control">{{ task.Keyword1 }}</p>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Keyword2</h5>
+                                                <p class="mb-0 form-control">{{ task.Keyword2 }}</p>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Keyword3</h5>
+                                                <p class="mb-0 form-control">{{ task.Keyword3 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <div class="col-lg-12">
+                                        <div class="form-group mb-0">
+                                            <label for="exampleInputText3" class="h5">Attachments</label>
+                                            {% if task.Attachments %}
+                                            <a class="form-control" target="_blank" id="exampleInputText4" href="{{ task.Attachments.url }}">{{ task.Attachments }} <strong>OPEN ATTEACHMENTS</strong> </a>
+                                            {% endif %}
+                                        </div>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>      
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- --------------------------- -->
+
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal">
+                        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header d-block text-center pb-3 border-bttom">
+                                    <h3 class="modal-title" id="exampleModalCenterTitle">New Task</h3>
+                                </div>
+                                <form method='post' enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="row">
+                                                <input type="hidden" name="addedby" value="{{ request.session.loguser  }}" >
+                                            
+                                            <div class="col-lg-12">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText02" class="h5">Task Name</label>
+                                                    <input type="text" name="taskname" class="form-control"
+                                                        id="exampleInputText02" placeholder="Enter Task Name" required>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-lg-3">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText2" class="h5">Assigned to</label>
+                                                    <select name="assignedto" class="selectpicker form-control" data-style="py-0" required>
+                                                        <option>Memebers</option>
+                                                        {% for user in users %}
+                                                        <option>{{ user.UserName }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="TaskAddedDate" class="h5">Task Added Date</label>
+                                                    <input type="date" name="taskaddeddate" class="form-control" required>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText05" class="h5">Due Dates</label>
+                                                    <input type="date" name="duedate" class="form-control"
+                                                        id="exampleInputText05" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText2" class="h5">Category</label>
+                                                    <input type="text" name="category" class="form-control"
+                                                    id="exampleInputText2" rows="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="exam654put2" class="h5">ProjectAbout</label>
+                                                    <input type="text" name="projectabout" class="form-control"
+                                                    id="exam654put2" rows="1">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="Keyword11" class="h5">Keyword1</label>
+                                                    <input type="text" name="keyword1" class="form-control"
+                                                    id="Keyword11" rows="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="Keyword22" class="h5">Keyword2</label>
+                                                    <input type="text" name="keyword2" class="form-control"
+                                                    id="Keyword22" rows="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="Keyword33" class="h5">Keyword3</label>
+                                                    <input type="text" name="keyword3" class="form-control"
+                                                    id="Keyword33" rows="1">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="Remarks1" class="h5">Remarks</label>
+                                                    <input type="text" name="Remark1" class="form-control"
+                                                    id="Remarks1" rows="1">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText040" class="h5">Description</label>
+                                                    <textarea type="text" name="description" class="form-control"
+                                                        id="exampleInputText040"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText01" class="h5">Attachments</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="attachments" class="custom-file-input"
+                                                            id="inputGroupFile003 accept="
+                                                            accept=".xlsx, .xls, image/*, video/*, .doc, .docx, .ppt, .pptx, .txt, .pdf" multiple>
+                                                        <label class="custom-file-label" for="inputGroupFile003">Uploadmedia</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div
+                                                    class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                    <button type="submit" class="btn btn-primary mr-3">Submit</button>
+                                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+</main>
+{% endblock body %}

@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>User Management</h1>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Add User</h5>
+                            <div class="d-flex flex-wrap align-items-center">
+                                <a href="#" class="btn btn-primary" data-target="#new-task-modal"
+                                    data-toggle="modal">Add User</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+            
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title">User List</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <div class="row justify-content-between">
+
+                  </div>
+                  <table id="user-list-table" class="table table-striped dataTable mt-4" role="grid"
+                     aria-describedby="user-list-page-info">
+                     <thead>
+                        <tr class="ligth">
+                            <!-- <th>UserId</th> -->
+                            <th>Profile</th>
+                            <th>Name</th>
+                            <th>BirthDate</th>
+                            <th>Gender</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Join Date</th>
+                            <th>UserName</th>
+                            <!-- <th>Password</th> -->
+                           <th style="min-width: 100px">Action</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for user  in users %}
+                        <tr>
+                          <!-- <td>{{ user.UserId }}</th> -->
+                          <td class="text-center"><img class="rounded img-fluid avatar-40" src="{% if user.UploadDocument %}{{user.UploadDocument.url}}{% else %}{% static 'assets\img\no_img.jpg' %}{% endif %}" alt="profile"></td>
+                          <td>{{ user.FirstName }} {{ user.MiddleName }} {{ user.LastName }}</td>
+                          <td>{{ user.BirthDate }}</td>
+                          <td>{{ user.Gender }}</td>
+                          <td>{{ user.Mobile }}</td>
+                          <td>{{ user.Email }}</td>
+                          <td>{{ user.JoiningDate }}</td>
+                          <td>{{ user.UserName }}</td>
+                          <!-- <td>{{ user.Password }}</td> -->
+                          <td>
+                            <div class="flex align-items-center list-user-action">
+                               <a class="btn btn btn-light" data-toggle="tooltip" data-placement="top" title=""
+                                  data-original-title="Edit" href="/edituser/{{ user.UserId }}"><i class="ri-pencil-line mr-0"></i></a>
+                               <!-- <a  class="btn btn-light" data-toggle="tooltip" data-placement="top" title=""
+                                  data-original-title="Delete" href="/deleteuser/{{ user.UserId }}"><i class="ri-delete-bin-line mr-0"></i></a> -->
+                            <button class="btn btn-light" 
+                                  data-target="#deleteuser{{ user.UserId }}" data-toggle="modal"><i class="ri-delete-bin-line mr-0"></i></button>
+                            </div>
+                         </td>
+                        </tr>
+
+
+                        <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="deleteuser{{ user.UserId }}">
+                            <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header d-block text-center pb-3 border-bttom">
+                                        <h3 class="modal-title" id="exampleModalCenterTitle">Are you sure you want to delete user!</h3>
+                                    </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                    <div class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                        <a href="/deleteuser/{{ user.UserId }}" class="btn btn-primary mr-3" type="submit">delete</a>
+                                                        <a href="/usermanagement/" type="cancel" class="btn btn-secondary mr-3" >cancel</a>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                     </tbody>
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+    </div>
+    <!-- Wrapper End-->
+
+
+<!-- ----------------------- -->
+
+        </div>
+
+    
+    
+    <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal">
+        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-block text-center pb-3 border-bttom">
+                    <h3 class="modal-title" id="exampleModalCenterTitle">Add User</h3>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <div class="row">
+                        
+                        <div class="col-sm-4">
+                            <label for="first_name" class="col-sm-4 col-form-label">FirstName</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <label for="middle_name" class="col-sm-4 col-form-label">MiddleName</label>
+                            <input type="text" class="form-control" id="middle_name" name="middle_name" required>
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <label for="last_name" class="col-sm-4 col-form-label">LastName</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-6">
+                            <label for="birthdate" class="col-sm-4 col-form-label">BirthDate</label>
+                            <input type="date" class="form-control" id="birthdate" name="birthdate" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-6">
+                            <label for="gender" class="col-sm-4 col-form-label">Gender</label>
+                            <select class="form-control" name="gender" id="gender" required>
+                                <option value="Male" selected="">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="col-sm-6">
+                            <label for="presentaddress" class="col-sm-4 col-form-label">PresentAddress</label>
+                            <textarea class="form-control" id="presentaddress" name="presentaddress" rows="1" cols="50"></textarea>
+                        </div>
+
+                        
+                        <div class="col-sm-6">
+                            <label for="permanentaddress" class="col-sm-4 col-form-label">PermanentAddress</label>
+                            <textarea class="form-control" id="permanentaddress" name="permanentaddress" rows="1" cols="50"></textarea>
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="city" class="col-sm-4 col-form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city" > 
+                        </div>
+                        
+                        <div class="col-sm-4">
+                            <label for="state" class="col-sm-4 col-form-label">State</label>
+                            <input type="text" class="form-control" id="state" name="state" > 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="pincode" class="col-sm-4 col-form-label">PinCode</label>
+                            <input type="number" class="form-control" id="pincode" name="pincode" required> 
+                        </div>
+                    
+                        
+                        <div class="col-sm-4">
+                            <label for="mobile_number" class="col-sm-4 col-form-label">MobileNumber</label>
+                            <input type="number" class="form-control" id="mobile_number" name="mobile_number" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="emergency_number" class="col-sm-4 col-form-label">EmergencyPhoneNo</label>
+                            <input type="number" class="form-control" id="emergency_number" name="emergency_number" > 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="bloodgroup" class="col-sm-4 col-form-label">BloodGroup</label>
+                            <input type="text" class="form-control" id="bloodgroup" name="bloodgroup" > 
+                        </div>
+
+                        
+                        <!-- <div class="col-sm-4">
+                            <label for="employeid" class="col-sm-4 col-form-label">UserId</label>
+                            <input type="number" class="form-control" id="employeid" name="employeid" required> 
+                        </div> -->
+
+                        
+                        <div class="col-sm-4">
+                            <label for="email" class="col-sm-4 col-form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="joiningdate" class="col-sm-4 col-form-label">JoiningDate</label>
+                            <input type="date" class="form-control" id="joiningdate" name="joiningdate" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="qualification" class="col-sm-4 col-form-label">Qualification</label>
+                            <input type="text" class="form-control" id="qualification" name="qualification" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="refname" class="col-sm-4 col-form-label">RefName</label>
+                            <input type="text" class="form-control" id="refname" name="refname" > 
+                        </div>
+
+                    
+                        
+                        <div class="col-sm-4">
+                            <label for="refmo" class="col-sm-4 col-form-label">RefMo</label>
+                            <input type="number" class="form-control" id="refmo" name="refmo" > 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="username" class="col-sm-4 col-form-label">UserName</label>
+                            <input type="text" class="form-control" id="username" name="username" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="password" class="col-sm-4 col-form-label">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" required> 
+                        </div>
+
+                        
+                        <div class="col-sm-4">
+                            <label for="profilepicture" class="col-sm-4 col-form-label">ProfilePicture</label>
+                            <input type="file" class="form-control" id="profilepicture" name="profilepicture" accept="image/png, image/jpeg" required> 
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
+                        </div>
+                    </div>
+
+                    </form>
+
+<!-- ---------- -->
+
+            </div>
+        </div>
+    </div>
+
+
+
+</main>
+
+
+{% endblock body %}

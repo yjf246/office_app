@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main id="main" class="main">
+    <div class="pagetitle">
+      <h1>User Management</h1>
+  </div>
+  <br>
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">User Management Details</h5>
+  
+            <!-- Bordered Tabs Justified -->
+            <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+              <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">All User</button>
+              </li>
+            </ul>
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+              <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+                  <hr>
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">UserId</th>
+                          <th scope="col">ProfilePicture</th>
+                          <th scope="col">User FullName</th>
+                          <th scope="col">UserName</th>
+                          <th scope="col">Password</th>
+                          <th scope="col">IsUser</th>
+                          <th scope="col">IsAdmin</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for demp  in demps %}
+                          <tr>
+                            <th scope="row">{{ demp.UserId }}</th>
+                            <td><img height="100px" width="100px" src="{{demp.UploadDocument.url}}" alt="" target=""></td>
+                            <td>{{ demp.FirstName }} {{ demp.MiddleName }} {{ demp.LastName }}</td>
+                            <td>{{ demp.UserName }}</td>
+                            <td>{{ demp.Password }}</td>
+                            <td>
+                              <a class="btn btn-light" href="/editISuser/{{ demp.UserId }}"> {{ demp.is_user }} : editisuser</a>
+                            </td>
+                            <td>
+                              <a class="btn btn-light" href="/editadmin/{{ demp.UserId }}"> {{ demp.is_admin }} : editadmin</a>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                    <hr>
+              </div>
+            </div>
+          </div>
+      </div>
+</main>
+{% endblock %}

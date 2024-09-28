@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Admin Page</h1>
+    </div>
+    <br>
+
+
+
+            
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title">User List</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <div class="row justify-content-between">
+
+                  </div>
+                  <table id="user-list-table" class="table table-striped dataTable mt-4" role="grid"
+                     aria-describedby="user-list-page-info">
+                     <thead>
+                        <tr class="ligth">
+                            <!-- <th>UserId</th> -->
+                            <th>ProfilePicture</th>
+                            <th>User FullName</th>
+                            <th>UserName</th>
+                            <!-- <th>Password</th> -->
+                            <th>IsUser</th>
+                            <th>IsAdmin</th>
+                           <!-- <th style="min-width: 100px">Action</th> -->
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for demp  in demps %}
+                        <tr>
+                          <!-- <th scope="row">{{ demp.UserId }}</th> -->
+                          <td class="text-center"><img class="rounded img-fluid avatar-40" src="{{demp.UploadDocument.url}}" alt="profile"></td>
+                          <td>{{ demp.FirstName }} {{ demp.MiddleName }} {{ demp.LastName }}</td>
+                          <td>{{ demp.UserName }}</td>
+                          <!-- <td>{{ demp.Password }}</td> -->
+                          <td>
+                            <div class="flex align-items-center list-user-action">
+                                {% if  demp.is_user  == True %}
+                                <button class="btn bg-info-light mr-3"
+                                 data-target="#edditisuser{{ demp.UserId }}"  data-toggle="modal"><i class="ri-edit-box-line m-0"></i>  Yes </button>
+                                 {% else %} 
+                                 <button class="btn bg-secondary-light mr-3 "
+                                 data-target="#edditisuser{{ demp.UserId }}"  data-toggle="modal"><i class="ri-edit-box-line m-0"></i>  No </button>
+                                 {% endif %}
+                             </div>
+                          </td>
+                          <td>
+                            <div class="flex align-items-center list-user-action">
+                                {% if  demp.is_admin  == True %}
+                                <button class="btn bg-info-light mr-3"
+                                 data-target="#eddittisadmin{{ demp.UserId }}"  data-toggle="modal"><i class="ri-edit-box-line m-0"></i>  Yes </button>
+                                 {% else %} 
+                                 <button class="btn bg-secondary-light mr-3 "
+                                 data-target="#eddittisadmin{{ demp.UserId }}"  data-toggle="modal"><i class="ri-edit-box-line m-0"></i>  No </button>
+                                 {% endif %}
+                             </div>
+                          </td>
+
+                         </tr>
+
+                         <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="eddittisadmin{{ demp.UserId }}"">
+                            <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                                
+                        
+                                <div class="modal-content">
+                                    <div class="modal-header d-block text-center pb-3 border-bttom">
+                                        <form method="POST" enctype="multipart/form-data" action="/editadmin/{{ demp.UserId }}">
+                                            {% csrf_token %}
+                            
+                            
+                                            <div class=" row-md-12 align-items-center">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="{{ demp.UserId }}" class="form-control" name="userid"
+                                                        required>
+                                                </div>
+                                                
+                                                <div class="form-group col-sm-12">
+                                                    <h3 for="isadmin" class="modal-title" id="exampleModalCenterTitle">IS ADMIN</h3>
+                                                    <select class="form-select" name="isadmin" id="isadmin">
+                                                        <option value="True">YES</option>
+                                                        <option value="False">NO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                            <div class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                                <button type="submit" class="btn btn-primary mr-3" value="UpdateUser">Submit</button>
+                                                                <a href="/manageadmin/" type="cancel" class="btn btn-secondary mr-3" >cancel</a>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- -------- -->
+                        <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="edditisuser{{ demp.UserId }}">
+                            <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                                
+                    
+                                <div class="modal-content">
+                                    <div class="modal-header d-block text-center pb-3 border-bttom">
+                                        <form method="POST" enctype="multipart/form-data" action="/editISuser/{{ demp.UserId }}">
+                                            {% csrf_token %}
+                            
+                            
+                                            <div class=" row-md-12 align-items-center">
+                                                <div class="form-group">
+                                                    <input type="hidden" value="{{ demp.UserId }}" class="form-control" name="userid"
+                                                        required>
+                                                </div>
+                                                
+                                                <div class="form-group col-sm-12">
+                                                    <h3 for="isuser" class="modal-title" id="exampleModalCenterTitle">IS USER</h3>
+                                                    <select class="form-select" name="isuser" id="isuser">
+                                                        <option value="True">YES</option>
+                                                        <option value="False">NO</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                            <div class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                                <button type="submit" class="btn btn-primary mr-3" value="UpdateUser">Submit</button>
+                                                                <a href="/manageadmin/" type="cancel" class="btn btn-secondary mr-3" >cancel</a>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!-- --------- -->
+
+<!-- --------- -->
+
+
+
+
+
+
+                         {% endfor %}
+
+                        
+                     </tbody>
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+    </div>
+    <!-- Wrapper End-->
+
+
+<!-- ----------------------- -->
+    
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+{% endblock body %}

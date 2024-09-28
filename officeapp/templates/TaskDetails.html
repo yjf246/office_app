@@ -1,0 +1,447 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Task Details</h1>
+    </div>
+    <br>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between breadcrumb-content">
+                            <h5>Tasks Details</h5>
+                            <div class="d-flex flex-wrap align-items-center">
+                                <a href="#" class="btn btn-primary" data-target="#task-action-model"
+                                    data-toggle="modal">New Task</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+<!-- ----------------------------- -->
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            {% for task in alltasks %}
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="card card-widget task-card">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <!-- <div class="custom-control custom-task custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck{{ task.id }}">
+                                        <label class="custom-control-label" for="customCheck{{ task.id }}"></label>
+                                    </div> -->
+                                    <div>
+                                        <h5 class="mb-2">{{ task }}</h5>
+                                        <h6 class="mb-2">{{ task.ProjectName }}</h6>
+                                        <div class="media align-items-center">
+                                            <div class="btn bg-body mr-3"><i class="ri-align-justify mr-2"></i>Task Added Date : {{ task.TaskStart|date:'d-M-Y H:m' }} | Addedby : {{ task.TaskAddBy }}</div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center mt-md-0 mt-3">
+                                    <!-- <a class="btn bg-secondary-light mr-3 bi-trash" href="/taskdelete/{{ task.id }}">delete</a> -->
+                                    <button class="btn bg-info-light mr-3" data-target="#task_remarks{{ task.id }}"
+                                    data-toggle="modal">Update Task </button>
+                                    <button class="{% if task.Markasdone == 'COMPLETED'  %}btn bg-success-light mr-3 {% else %} btn bg-secondary-light mr-3{% endif %}" data-target="#new-task-modal{{ task.id }}"
+                                    data-toggle="modal">Task Status : {{ task.Markasdone }}</button>
+                                    <a class="btn btn btn-light" data-toggle="collapse" href="#collapseEdit{{ task.id }}" role="button" aria-expanded="false" aria-controls="collapseEdit{{ task.id }}"><i class="ri-edit-box-line m-0"></i></a>
+                                </div>
+<!-- ==== -->
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="new-task-modal{{ task.id }}">
+    <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bttom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">Task Status</h3>
+            </div>
+            <form method='post' enctype="multipart/form-data" action="/mkdNTskAtn/{{ task.id }}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                            <!-- <input type="hidden" name="addedby" value="{{ request.session.loguser  }}" > -->
+                        
+                            <div class="col-lg-12">
+                                <label for="mkdNTskAtn" class="col-form-label">Task Status : {{ task.Markasdone }}</label>
+                                <select class="form-select" name="mkdN_TskAtn" id="mkdNTskAtn">
+                                    <option value="COMPLETED">COMPLETED</option>
+                                    <option value="PENDING">PENDING</option>
+                                </select>
+                            </div>
+                       
+
+                        <div class="col-lg-12">
+                            <div
+                                class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                <a href="/mkdNTskAtn/{{ task.id }}"><button class="btn btn-primary mr-3" type="submit">Submit</button></a>
+                                <!-- <button type="submit" class="btn btn-primary mr-3" >Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="task_remarks{{ task.id }}">
+    <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header d-block text-center pb-3 border-bttom">
+                <h3 class="modal-title" id="exampleModalCenterTitle">Update Task</h3>
+            </div>
+            <form method='post' enctype="multipart/form-data" action="/upTaActn/{{ task.id }}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                            <!-- <input type="hidden" name="taskid" value="{{ task.id }}" > -->
+                        
+                            <div class="col-lg-6">
+                                <label for="TaskTitle" class="col-form-label">Task Title</label>
+                                <input type="text" value="{{ task.TaskTitle }}" class="form-control" id="TaskTitle" name="taskTitle">
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="ProjectName" class="col-form-label">Project Name</label>
+                                <select id="ProjectName" name="projectName" class="selectpicker form-control" data-style="py-0" required>
+                                    <option selected="{{ task.ProjectName }}">{{ task.ProjectName }}</option>
+                                    <option>Scdp1 Project</option>
+                                    <option>Scdp2 Project</option>
+                                    <option>Mealplan Project</option>
+                                    <option>Vepl Project</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="TaskType" class="col-form-label">Task Type</label>
+                                <select name="taskType" class="selectpicker form-control" id="TaskType" data-style="py-0" required>
+                                    <option selected="{{ task.TaskType }}">{{ task.TaskType }}</option>
+                                    <option>service</option>
+                                    <option>development</option>
+                                    <option>incident</option>
+                                    <option>other</option>
+                                </select>
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="TaskSubtype" class="col-form-label">TaskSubtype</label>
+                                <select id="TaskSubtype" name="taskSubtype" class="selectpicker form-control" data-style="py-0" required>
+                                    <option selected="{{ task.TaskSubtype }}">{{ task.TaskSubtype }}</option>
+                                    <option>software</option>
+                                    <option>hardware</option>
+                                    <option>other</option>
+                                </select>
+                            </div>
+                       
+                            <div class="col-lg-4">
+                                <label for="TaskPriority" class="col-form-label">TaskPriority</label>
+                                <select id="TaskPriority" name="taskpriority" class="selectpicker form-control" data-style="py-0" required>
+                                    <option selected="{{ task.TaskPriority }}">{{ task.TaskPriority }}</option>
+                                    <option>low</option>
+                                    <option>medium</option>
+                                    <option>high</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="Correction" class="col-form-label">Detail Problem Statement</label>
+                                <input type="text" value="{{ task.Correction }}" class="form-control" id="Correction" name="_correction" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="CorrectiveAction" class="col-form-label">Corrective Action</label>
+                                <input type="text" value="{{ task.CorrectiveAction }}" class="form-control" id="CorrectiveAction" name="_correctiveAction" required>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label for="RootCase" class="col-form-label">Root Cause Analysis</label>
+                                <textarea class="form-control" name="rootCase"  rows="2" id="RootCase"> {{ task.RootCase }}</textarea>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="Description" class="col-form-label">Description</label>
+                                <textarea class="form-control" name="_description"  rows="2" id="Description"> {{ task.Description }}</textarea>
+                            </div>
+                            
+                        <div class="col-lg-12">
+                            <div
+                                class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                <a href="/upTaActn/{{ task.id }}"><button class="btn btn-primary mr-3" type="submit">Submit</button></a>
+                                <!-- <button type="submit" class="btn btn-primary mr-3" >Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- ==== -->
+
+                            </div>  
+                        </div>
+                    </div>                                                                                                        
+                    <div class="collapse" id="collapseEdit{{ task.id }}">                                            
+                        <div class="card card-list task-card">
+                            <div class="card-body">
+
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText232" class="h5">Task Add By</label>
+                                                        <p class="mb-0 form-control" id="exampleInputText232">{{ task.TaskAddBy }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText4" class="h5">Task Start</label>
+                                                    <p class="mb-0 form-control" id="exampleInputText4">{{ task.TaskStart|date:'Y-m-d H:m' }}</p>
+                                                </div>                        
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText3" class="h5">Task Closed</label>
+                                                    <p class="mb-0 form-control" id="exampleInputText3">{{ task.TaskClosed|date:'Y-m-d H:m' }}</p>
+                                                </div>                         
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Project Name</h5>
+                                                <p class="mb-0 form-control">{{ task.ProjectName }}</p>
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Task Type</h5>
+                                                <p class="mb-0 form-control">{{ task.TaskType }}</p>
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Task Subtype</h5>
+                                                <p class="mb-0 form-control">{{ task.TaskSubtype }}</p>
+                                            </div>
+                                            <div class="col-lg-3">                                                        
+                                                <h5 class="mb-2">Task Priority</h5>
+                                                <p class="mb-0 form-control">{{ task.TaskPriority }}</p>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Task SLA</h5>
+                                                <p class="mb-0 form-control">{{ task.TaskSLA }}</p>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Detail Problem Statement</h5>
+                                                <textarea class="form-control" placeholder="" rows="2">{{ task.Correction }}</textarea>
+                                            </div>
+                                            <div class="col-lg-4">                                                        
+                                                <h5 class="mb-2">Corrective Action</h5>
+                                                <textarea class="form-control" placeholder="" rows="2">{{ task.CorrectiveAction }}</textarea>
+                                            </div>
+                                            <div class="col-lg-6">                                                        
+                                                <h5 class="mb-2">Root Cause Analysis</h5>
+                                                <textarea class="form-control" placeholder="" rows="2">{{ task.RootCase }}</textarea>
+                                            </div>
+                                            <div class="col-lg-6">                                                        
+                                                <h5 class="mb-2">Description</h5>
+                                                <textarea class="form-control" placeholder="" rows="2">{{ task.Description }}</textarea>
+                                            </div>
+         
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <div class="col-lg-12">
+                                        <div class="form-group mb-0">
+                                            <label for="exampleInputText3" class="h5">Attachments</label>
+                                            {% if task.Attachments %}
+                                            <a class="form-control" target="_blank" id="exampleInputText4" href="{{ task.Attachments.url }}">{{ task.Attachments }} <strong>OPEN ATTEACHMENTS</strong> </a>
+                                            {% endif %}
+                                        </div>                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>      
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- --------------------------- -->
+
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" role="dialog" aria-modal="true" id="task-action-model">
+                        <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header d-block text-center pb-3 border-bttom">
+                                    <h3 class="modal-title" id="exampleModalCenterTitle">New Task</h3>
+                                </div>
+                                <form method='post' enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="row">
+                                                <input type="hidden" name="taskaddby" value="{{ request.session.loguser  }}" >
+                                            
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText02" class="h5">Task Title</label>
+                                                    <input type="text" name="tasktitle" class="form-control"
+                                                        id="exampleInputText02" placeholder="Enter Task Title" required>
+                                                </div>
+                                            </div>
+
+                                             <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText2" class="h5">Project Name</label>
+                                                    <select name="projectname" class="selectpicker form-control" data-style="py-0" required>
+                                                        <option>Scdp1 Project</option>
+                                                        <option>Scdp2 Project</option>
+                                                        <option>Mealplan Project</option>
+                                                        <option>Vepl Project</option>
+                                                        <option>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                             <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="TaskAddedDate" class="h5">Task Type</label>
+                                                    <select name="tasktype" class="selectpicker form-control" data-style="py-0" required>
+                                                        <option>Service</option>
+                                                        <option>Development</option>
+                                                        <option>Incident</option>
+                                                        <option>Other</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText05" class="h5">Task Subtype</label>
+                                                    <select name="tasksubtype" class="selectpicker form-control" data-style="py-0" required>
+                                                        <option>Software</option>
+                                                        <option>Hardware</option>
+                                                        <option>Other</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="exampleInputText2" class="h5">Task Priority</label>
+                                                    <select name="taskpriority" class="selectpicker form-control" data-style="py-0" required>
+                                                        <option>Low</option>
+                                                        <option>Medium</option>
+                                                        <option>High</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="taskstart" class="h5">Task Start</label>
+                                                    <input type="datetime-local" name="taskstart" class="form-control" id="taskstart" >
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="taskclosed" class="h5">Task Closed</label>
+
+                                                    <input type="datetime-local" id="taskclosed" name="taskclosed" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group mb-3">
+                                                    <label for="Keyword22" class="h5">Task SLA</label>
+                                                    <input type="number" name="taskSla" class="form-control"
+                                                    id="Keyword22" rows="1" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="Correction" class="h5">Detail Problem Statement</label>
+                                                    <input type="text" name="correction" class="form-control"
+                                                        id="Correction" placeholder="Enter Correction" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="CorrectiveAction" class="h5">Corrective Action</label>
+                                                    <input type="text" name="correctiveaction" class="form-control"
+                                                        id="CorrectiveAction" placeholder="Enter Corrective Action" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="Keyword33" class="h5">Root Cause Analysis</label>
+                                                    <textarea class="form-control" name="rootcase" id="Keyword33" cols="30" rows="2" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="Description" class="h5">Description</label>
+                                                    <textarea class="form-control" name="description" id="Description" cols="30" rows="2" required></textarea>
+                                                </div>
+                                            </div>
+
+                                          
+                                            <div class="col-lg-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="exampleInputText01" class="h5">Attachments</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="Attachments" class="custom-file-input"
+                                                            id="inputGroupFile003 accept="
+                                                            accept=".xlsx, .xls, image/*, video/*, .doc, .docx, .ppt, .pptx, .txt, .pdf" multiple>
+                                                        <label class="custom-file-label" for="inputGroupFile003">Uploadmedia</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div
+                                                    class="d-flex flex-wrap align-items-ceter justify-content-center mt-4">
+                                                    <button type="submit" class="btn btn-primary mr-3">Submit</button>
+                                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+</main>
+<script>
+    var now = new Date();
+    var indianNow = new Date(now.getTime() + (5.5 * 60 * 60 * 1000));
+  
+    var morning = new Date(indianNow);
+    morning.setHours(5);
+    morning.setMinutes(30);
+  
+    var morningISO = morning.toISOString().slice(0, 16);
+    var currentISO = indianNow.toISOString().slice(0, 16);
+  
+    document.getElementById('taskstart').value = morningISO;
+  
+    document.getElementById('taskclosed').value = currentISO;
+  </script>
+{% endblock body %}

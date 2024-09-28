@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Birthdays</h1>
+    </div>
+    <br>
+
+
+
+
+            
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title">Birthdays List</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <div class="table-responsive">
+                  <div class="row justify-content-between">
+
+                  </div>
+                  <table id="user-list-table" class="table table-striped dataTable mt-4" role="grid"
+                     aria-describedby="user-list-page-info">
+                     <thead>
+                        <tr class="ligth">
+                            <th>Name</th>
+                            <th>Birthdays Date</th>
+                            <!-- <th>Delete</th> -->
+
+                           
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for bday in bdays %}
+                        <tr>
+                          <td>{{ bday.0 }} {{ bday.1}}</th>
+                          <td>{{ bday.2 }}</td>
+                          {% if  request.session.is_admin == True %} 
+                          <!-- <td><div class="flex align-items-center list-user-action">
+                            <a class="btn btn-light" data-toggle="tooltip" data-placement="top" title=""
+                               data-original-title="Delete" href="/deleteholiday/{{ holiday.id }}"><i class="ri-delete-bin-line mr-0"></i></a>
+                         </div></td> -->
+                         {% endif %}
+                        </tr>
+                        {% endfor %}
+                        
+                     </tbody>
+                  </table>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+    </div>
+    <!-- Wrapper End-->
+
+
+<!-- ----------------------- -->
+
+</main>
+
+
+{% endblock body %}
